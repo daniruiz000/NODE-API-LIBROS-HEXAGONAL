@@ -1,7 +1,7 @@
 // Importamos los modelos:
-import { Book } from "../models/Book";
-import { Author } from "../models/Author";
-import { Publisher } from "../models/Publisher";
+import { Book } from "../domain/entities/book-entity"
+import { Author } from "../domain/entities/author-entity";
+import { Publisher } from "../domain/entities/publisher-entity";
 import { generateRandom } from "./generateRandom";
 
 //  Función de relación entre de documentos de la colección.

@@ -1,4 +1,4 @@
-import { Book } from "../models/Book";
+import { Book } from "../domain/entities/book-entity"
 
 const bookList = [
   { title: "To Kill a Mockingbird", pages: 281 },

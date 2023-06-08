@@ -1,5 +1,5 @@
 // Importamos el modelo
-import { Publisher } from "../models/Publisher";
+import { Publisher } from "../domain/entities/publisher-entity";
 
 // Creamos 50 editorial aleatoriamente y los vamos añadiendo al array de editoriales:
 const publisherList = [

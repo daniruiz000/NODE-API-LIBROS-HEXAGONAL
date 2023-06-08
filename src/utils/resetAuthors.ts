@@ -1,5 +1,5 @@
 // Importamos el modelo
-import { Author } from "../models/Author";
+import { Author } from "../domain/entities/author-entity";
 
 // Creamos 50 autores aleatoriamente y los vamos añadiendo al array de autores:
 const authorList = [
