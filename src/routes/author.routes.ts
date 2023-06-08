@@ -1,7 +1,10 @@
 import express from "express";
+import multer from "multer";
 import { isAuth } from "../middlewares/auth.middleware";
 import { authorService } from "../domain/services/author.service";
 import { checkParams } from "../middlewares/checkParams.middleware";
+
+const upload = multer({ dest: "public" });
 
 export const authorRouter = express.Router();
 
@@ -12,6 +15,7 @@ authorRouter.post("/", authorService.createAuthor);
 authorRouter.delete("/:id", isAuth, authorService.deleteAuthor);
 authorRouter.put("/:id", isAuth, authorService.updateAuthor);
 authorRouter.post("/login", authorService.login);
+authorRouter.post("/image-upload", upload.single("image"), authorService.updateAuthorImage);
 
 /**
  * @swagger
@@ -229,4 +233,28 @@ authorRouter.post("/login", authorService.login);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ */
+
+/**
+ * @swagger
+ * /author/image-upload:
+ *   post:
+ *     summary: Upload a image for a author
+ *     tags: [Author]
+ *     consumes:
+ *       - multipart/form-data
+ *     parameters:
+ *       - in: formData
+ *         name: image
+ *         type: file
+ *         description: The file to upload.
+ *       - in: formData
+ *         name: authorId
+ *         type: string
+ *         description: The id of the author
+ *     responses:
+ *       200:
+ *         description: The image was uploaded successfully
+ *       404:
+ *         description: The author was not found
  */

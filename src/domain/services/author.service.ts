@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import fs from "fs";
 import { type Request, type Response, type NextFunction } from "express";
 import { generateToken } from "../../utils/token";
 import { authorOdm } from "../odm/author.odm";
@@ -152,6 +153,33 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
   }
 };
 
+const updateAuthorImage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    // Renombrado de la imagen
+    const originalname = req.file?.originalname as string;
+    const path = req.file?.path as string;
+    const newPath = `${path}_${originalname}`;
+    fs.renameSync(path, newPath);
+
+    // Busqueda de la marca
+    const authorId = req.body.authorId;
+    const author = authorOdm.getAuthorById(authorId) as any;
+
+    if (author) {
+      author.logoImage = newPath;
+      const authorUpdated = await authorOdm.updateAuthor(authorId, author);
+      res.json(authorUpdated);
+
+      console.log("Marca modificada correctamente!");
+    } else {
+      fs.unlinkSync(newPath);
+      res.status(404).send("Marca no encontrada");
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const authorService = {
   getAuthors,
   getAuthorById,
@@ -160,4 +188,5 @@ export const authorService = {
   deleteAuthor,
   updateAuthor,
   login,
+  updateAuthorImage,
 };
