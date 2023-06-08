@@ -153,7 +153,7 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
   }
 };
 
-const updateAuthorImage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const updateAuthorImage = async (req: any, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Renombrado de la imagen
     const originalname = req.file?.originalname as string;
@@ -163,10 +163,15 @@ const updateAuthorImage = async (req: Request, res: Response, next: NextFunction
 
     // Busqueda de la marca
     const authorId = req.body.authorId;
+
+    if (req.author.id !== authorId && req.author.email !== "admin@gmail.com") {
+      res.status(401).json({ error: "No tienes autorización para realizar esta operación" });
+      return;
+    }
     const author = authorOdm.getAuthorById(authorId) as any;
 
     if (author) {
-      author.logoImage = newPath;
+      author.image = newPath;
       const authorUpdated = await authorOdm.updateAuthor(authorId, author);
       res.json(authorUpdated);
 

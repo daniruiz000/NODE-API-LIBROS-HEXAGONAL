@@ -15,7 +15,7 @@ authorRouter.post("/", authorService.createAuthor);
 authorRouter.delete("/:id", isAuth, authorService.deleteAuthor);
 authorRouter.put("/:id", isAuth, authorService.updateAuthor);
 authorRouter.post("/login", authorService.login);
-authorRouter.post("/image-upload", upload.single("image"), authorService.updateAuthorImage);
+authorRouter.post("/image-upload", isAuth, upload.single("image"), authorService.updateAuthorImage);
 
 /**
  * @swagger
