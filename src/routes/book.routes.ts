@@ -47,12 +47,8 @@ bookRouter.put("/:id", bookService.updateBook);
  *                   type: array
  *                   items:
  *                     $ref: '#/components/schemas/Book'
- *                 totalItems:
- *                   type: integer
- *                 totalPages:
- *                   type: integer
- *                 currentPage:
- *                   type: integer
+ *                   pagination:
+ *                     $ref: '#/components/schemas/Pagination'
  *       400:
  *         description: Invalid page or limit parameter
  *         content:
