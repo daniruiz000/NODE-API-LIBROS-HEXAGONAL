@@ -2,12 +2,13 @@ import swaggerUiExpress from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import { swaggerOptions } from "../swagger-options";
 import express, { type Response, type Request } from "express";
-import { mongoConnect } from "../middlewares/mongoConnect.middleware";
+import { connect } from "../server/connect.middleware";
 import { authorRouter } from "./author.routes";
 import { bookRouter } from "./book.routes";
 import { publisherRouter } from "./publisher.routes";
-import { infoReq } from "../middlewares/infoReq.middleware";
-import { checkError } from "../middlewares/error.middleware";
+import { infoReq } from "../server/infoReq.middleware";
+import { checkErrorServer } from "../routes/checkErrorServer.middleware";
+import { checkErrorRequest } from "../domain/services/checkErrorRequest.middleware";
 
 export const configureRoutes = (app: any): any => {
   // Swagger
@@ -28,8 +29,8 @@ export const configureRoutes = (app: any): any => {
   // Middleware previo de Info de la req.
   app.use(infoReq);
 
-  // Middleware de conexión a mongodb
-  app.use(mongoConnect);
+  // Middleware de conexión a BBDD
+  app.use(connect);
 
   // Usamos las rutas
   app.use("/author", authorRouter);
@@ -38,8 +39,11 @@ export const configureRoutes = (app: any): any => {
   app.use("/public", express.static("public"));
   app.use("/", routerHome);
 
-  // Middleware de gestión de los Errores.
-  app.use(checkError);
+  // Middleware de gestión de los Errores de las peticiones.
+  app.use(checkErrorRequest);
+
+  // Middleware de gestión de los Errores del servidor.
+  app.use(checkErrorServer);
 
   return app;
 };

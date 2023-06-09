@@ -2,9 +2,10 @@ import {
   type Request,
   type Response,
   type ErrorRequestHandler,
+  type NextFunction,
 } from "express";
 
-export const checkError = async (err: ErrorRequestHandler, req: Request, res: Response): Promise<void> => {
+export const checkErrorRequest = async (err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction): Promise<void> => {
   console.log("*** INICIO DE ERROR ***");
   console.log(`PETICIÓN FALLIDA: ${req.method} a la url ${req.originalUrl}`);
   console.log(err);
@@ -19,6 +20,6 @@ export const checkError = async (err: ErrorRequestHandler, req: Request, res: Re
   } else if (errorAsAny?.code === "ER_NO_DEFAULT_FOR_FIELD") {
     res.status(400).json({ error: errorAsAny?.sqlMessage })
   } else {
-    res.status(500).json(err);
+    next(err)
   }
 };

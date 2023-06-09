@@ -1,5 +1,5 @@
-import { Author } from "../domain/entities/author-entity"
-import { verifyToken } from "../utils/token";
+import { Author } from "../entities/author-entity"
+import { verifyToken } from "../../utils/token";
 
 import {
   type Response,

@@ -6,11 +6,8 @@
  */
 
 import express from "express";
-import multer from "multer";
 import { publisherService } from "../domain/services/publisher.service";
-import { checkParams } from "../middlewares/checkParams.middleware";
-
-const upload = multer({ dest: "public" });
+import { checkParams } from "../domain/services/checkParams.middleware";
 
 export const publisherRouter = express.Router();
 publisherRouter.get("/", checkParams, publisherService.getAllPublishers);
@@ -18,9 +15,7 @@ publisherRouter.get("/:id", publisherService.getPublisherById);
 publisherRouter.get("/name/:name", publisherService.getPublisherByName);
 publisherRouter.post("/", publisherService.createPublisher);
 publisherRouter.delete("/:id", publisherService.deletePublisher);
-publisherRouter.delete("/:id", publisherService.deletePublisher);
 publisherRouter.put("/:id", publisherService.updatePublisher);
-publisherRouter.post("/logo-upload", upload.single("logo"), publisherService.updatePublisherLogo);
 
 /**
  * @swagger
@@ -161,30 +156,6 @@ publisherRouter.post("/logo-upload", upload.single("logo"), publisherService.upd
  *               $ref: '#/components/schemas/Publisher'
  *       400:
  *         description: The request body is incorrect or missing
- *       404:
- *         description: The publisher was not found
- */
-
-/**
- * @swagger
- * /publisher/logo-upload:
- *   post:
- *     summary: Upload a logo for a publisher
- *     tags: [Publisher]
- *     consumes:
- *       - multipart/form-data
- *     parameters:
- *       - in: formData
- *         name: logo
- *         type: file
- *         description: The file to upload.
- *       - in: formData
- *         name: publisherId
- *         type: string
- *         description: The id of the publisher
- *     responses:
- *       200:
- *         description: The logo was uploaded successfully
  *       404:
  *         description: The publisher was not found
  */

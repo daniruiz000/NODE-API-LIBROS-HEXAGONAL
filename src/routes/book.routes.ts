@@ -7,13 +7,12 @@
 
 import express from "express";
 import { bookService } from "../domain/services/book.service";
-import { checkParams } from "../middlewares/checkParams.middleware";
+import { checkParams } from "../domain/services/checkParams.middleware";
 
 export const bookRouter = express.Router();
 
 bookRouter.get("/", checkParams, bookService.getAllBooks);
 bookRouter.get("/:id", bookService.getBookById);
-bookRouter.post("/", bookService.createBook);
 bookRouter.post("/", bookService.createBook);
 bookRouter.delete("/:id", bookService.deleteBook);
 bookRouter.put("/:id", bookService.updateBook);

@@ -4,12 +4,10 @@ import fs from "fs";
 
 const getAllPublishers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // Asi leemos query params
     const page = req.query.page ? parseInt(req.query.page as string) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
     const publishers = await publisherOdm.getAllPublishers(page, limit);
 
-    // Num total de elementos
     const totalElements = await publisherOdm.getPublisherCount();
 
     const response = {
@@ -95,13 +93,11 @@ const updatePublisher = async (req: Request, res: Response, next: NextFunction):
 
 const updatePublisherLogo = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // Renombrado de la imagen
     const originalname = req.file?.originalname as string;
     const path = req.file?.path as string;
     const newPath = `${path}_${originalname}`;
     fs.renameSync(path, newPath);
 
-    // Busqueda de la marca
     const publisherId = req.body.publisherId;
     const publisher = publisherOdm.getPublisherById(publisherId) as any;
 

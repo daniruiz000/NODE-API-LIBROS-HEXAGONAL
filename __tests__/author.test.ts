@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { connect } from "../src/domain/repositories/mongo-repository"
+import { mongoConnect } from "../src/domain/repositories/mongo-repository"
 import { app } from "../src/server/index"
 import { appInstance } from "../src/index"
 import { type IAuthor, Author, AllowedCountries } from "../src/domain/entities/author-entity"
@@ -19,7 +19,7 @@ describe("Author Controler", () => {
 
   // Antes de hacer los tests:
   beforeAll(async () => {
-    await connect() // Conecto a mongo pero a la BBDD de test mediante la biblioteca cross-env que nos permite modificar la variable de entorno del nombre de la BBDD desde el script de test.
+    await mongoConnect() // Conecto a mongo pero a la BBDD de test mediante la biblioteca cross-env que nos permite modificar la variable de entorno del nombre de la BBDD desde el script de test.
     await Author.collection.drop() // Borramos los usuarios de la BBDD
   })
   // Cuando acaben los test:

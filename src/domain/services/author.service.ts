@@ -7,13 +7,11 @@ import { Book } from "../entities/book-entity";
 
 export const getAuthors = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // Ternario que se queda con el parametro si llega
     const page = req.query.page ? parseInt(req.query.page as string) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
 
     const authors = await authorOdm.getAllAuthors(page, limit);
 
-    // Num total de elementos
     const totalElements = await authorOdm.getAuthorCount();
 
     const response = {
@@ -135,7 +133,6 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
       return;
     }
 
-    // Comprueba la pass
     const authorPassword: string = author.password;
     const match = await bcrypt.compare(password, authorPassword);
 
@@ -155,13 +152,11 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
 
 const updateAuthorImage = async (req: any, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // Renombrado de la imagen
     const originalname = req.file?.originalname as string;
     const path = req.file?.path as string;
     const newPath = `${path}_${originalname}`;
     fs.renameSync(path, newPath);
 
-    // Busqueda de la marca
     const authorId = req.body.authorId;
 
     if (req.author.id !== authorId && req.author.email !== "admin@gmail.com") {

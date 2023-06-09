@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { connect } from "../domain/repositories/mongo-repository"; // Importamos el archivo de conexión a la BBDD
+import { mongoConnect } from "../domain/repositories/mongo-repository"; // Importamos el archivo de conexión a la BBDD
 
 import { resetAuthors } from "./resetAuthors";
 import { resetPublishers } from "./resetPublishers";
@@ -9,7 +9,7 @@ import { bookRelations } from "./bookRelations";
 
 const seedFunction = async (): Promise<void> => {
   try {
-    await connect();
+    await mongoConnect();
     await resetAuthors();
     await resetPublishers()
     await resetBooks()

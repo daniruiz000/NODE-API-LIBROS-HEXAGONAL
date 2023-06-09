@@ -1,8 +1,8 @@
 import express from "express";
 import multer from "multer";
-import { isAuth } from "../middlewares/auth.middleware";
+import { isAuth } from "../domain/services/auth.middleware";
 import { authorService } from "../domain/services/author.service";
-import { checkParams } from "../middlewares/checkParams.middleware";
+import { checkParams } from "../domain/services/checkParams.middleware";
 
 const upload = multer({ dest: "public" });
 
