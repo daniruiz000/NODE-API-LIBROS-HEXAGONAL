@@ -7,7 +7,6 @@ import { authorRouter } from "./author.routes";
 import { bookRouter } from "./book.routes";
 import { publisherRouter } from "./publisher.routes";
 import { infoReq } from "../server/infoReq.middleware";
-import { checkErrorServer } from "../routes/checkErrorServer.middleware";
 import { checkErrorRequest } from "../domain/services/checkErrorRequest.middleware";
 
 export const configureRoutes = (app: any): any => {
@@ -41,9 +40,6 @@ export const configureRoutes = (app: any): any => {
 
   // Middleware de gestión de los Errores de las peticiones.
   app.use(checkErrorRequest);
-
-  // Middleware de gestión de los Errores del servidor.
-  app.use(checkErrorServer);
 
   return app;
 };
